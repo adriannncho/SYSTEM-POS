@@ -8,9 +8,18 @@ import es from '@angular/common/locales/es';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
+import { ICONS_MODULES } from './shared/config/icons.config';
 
 registerLocaleData(es);
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideNzI18n(es_ES), importProvidersFrom(FormsModule), provideAnimationsAsync(), provideHttpClient()]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }), 
+    provideRouter(routes), 
+    provideNzI18n(es_ES), 
+    importProvidersFrom(FormsModule), 
+    provideAnimationsAsync(), 
+    provideHttpClient(),
+    importProvidersFrom(...ICONS_MODULES),
+  ]
 };

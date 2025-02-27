@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NG_ZORRO_MODULES } from './shared/config/ng-zorro.config';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [],
+  imports: [
+    ...NG_ZORRO_MODULES
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
