@@ -1,10 +1,9 @@
 package org.sp.processor.rest;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -14,6 +13,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.media.SchemaProperty;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.sp.processor.domain.product.ProductSaveDTO;
 import org.sp.processor.helper.exception.HandlerException;
 import org.sp.processor.helper.exception.ProblemException;
 import org.sp.processor.service.ProductService;
@@ -107,6 +107,56 @@ public class ProductApi {
     )
     public Response getProducts() {
         return Response.ok().entity(productService.getProducts()).build();
+    }
+
+    @POST
+    @Transactional
+    @Path("/saveProduct")
+    @APIResponses(
+            value = {
+                    @APIResponse(
+                            responseCode = "200",
+                            description = "Se crea el producto correctamente"
+                    ),
+                    @APIResponse(
+                            responseCode = "400",
+                            description = "No hay registros de productos en base de datos.",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(
+                                            implementation = ProblemException.class,
+                                            properties = {
+                                                    @SchemaProperty(
+                                                            name = "detail",
+                                                            example = """
+                                                                        [
+                                                                               "El campo description (descripción) no puede ser nulo o estar vacío.",
+                                                                               "El campo name (nombre) no puede ser nulo o estar vacío.",
+                                                                               "El campo value (precio) no puede ser nulo o estar vacío."
+                                                                        ]
+                                                                    """
+                                                    )
+                                            }
+                                    )
+                            )
+                    ),
+                    @APIResponse(
+                            responseCode = "500",
+                            description = "Error interno de servidor",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = HandlerException.ResponseError.class)
+                            )
+                    )
+            }
+    )
+    @Operation(
+            summary = "Guardar el producto",
+            description = "Se guarda el producto de forma exitosa"
+    )
+    public Response saveProduct(@Valid ProductSaveDTO productSaveDTO){
+        productService.saveProduct(productSaveDTO);
+        return Response.status(Response.Status.CREATED).build();
     }
 
 }
