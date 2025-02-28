@@ -1,0 +1,24 @@
+nz-header {
+  background: var(--color-neutral-white);
+  box-shadow: 0px 3px 10px var(--color-neutral-gray-warm);
+  color: white;
+  position:fixed;
+  width: 100%;
+  z-index: 1000;
+}
+
+nz-content {
+  margin: 0;
+  background: var(--color-neutral-gray-light);
+}
+
+.headerContainer {
+  padding: 0;
+  background-color: var(--color-neutral-white);
+}
+
+.footer-desktop {
+  text-align: center;
+  background: var(--color-notification-info-light);
+  color: var(--color-notification-info-dark);
+}

@@ -1,0 +1,36 @@
+<nz-layout style="min-height: 100vh;">
+  <nz-header class="headerContainer">
+    <div #header nz-row class="containerelements">
+      <div nz-col style="margin-left: 2vh;">
+        <div nz-row>
+          <div nz-col>
+          </div>
+          <div nz-col class="logo">
+              <h2>
+                System Post
+              
+              </h2>
+          </div>
+        </div>
+      </div>
+      <div nz-col *ngIf="width > 650">
+        <div nz-row nzGutter="16">
+          <div nz-col>
+            <button nz-button class="btnHeader">
+              <i nz-icon nzType="message" nzTheme="outline"></i>
+              <nz-badge [nzCount]="4" nzSize="small" style="margin-left: 5px" ></nz-badge>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nz-header>
+  <nz-content>
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </nz-content>
+  <nz-footer class="footer-desktop">
+    <p>&copy; 2025 Nombre proyecto. Todos los derechos reservados.</p>
+  </nz-footer>
+</nz-layout>
