@@ -32,7 +32,7 @@ public class User {
     private Business businessId;
 
     @Column(name = "ACTIVO")
-    private boolean userStatusId;
+    private boolean userStatus;
 
     @Column(name = "NOMBRE")
     private String name;

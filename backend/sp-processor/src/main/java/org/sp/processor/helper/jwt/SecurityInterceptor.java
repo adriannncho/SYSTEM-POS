@@ -12,6 +12,7 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
 import java.time.Instant;
@@ -24,6 +25,12 @@ public class SecurityInterceptor implements ContainerRequestFilter {
     private static final Logger LOG = Logger.getLogger(SecurityInterceptor.class);
 
     private static final List<String> EXCLUDED_PATHS = List.of("/sp-processor/login");
+
+    @ConfigProperty(name = "CONSTANTS.PROPERTIES.KEY_TOKEN")
+    private String keyToken;
+
+    @ConfigProperty(name = "CONSTANTS.PROPERTIES.URL_TOKEN")
+    private String issuerToken;
 
     @Inject
     private TokenContext tokenContext;
@@ -85,13 +92,10 @@ public class SecurityInterceptor implements ContainerRequestFilter {
     }
 
     private DecodedJWT validateTokenCoded(String token) {
-        String secretKey = System.getenv("JWT_SECRET");
-        String issuer = System.getenv("JWT_ISSUER");
-
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secretKey);
+            Algorithm algorithm = Algorithm.HMAC256(keyToken);
             JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer(issuer)
+                    .withIssuer(issuerToken)
                     .build();
             return verifier.verify(token);
         } catch (JWTVerificationException e) {

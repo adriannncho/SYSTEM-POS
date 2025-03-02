@@ -24,6 +24,10 @@ public class UserDTO {
     @Positive(message = "El campo documentTypeId (ID de tipo de documento) debe ser un número positivo.")
     private int documentTypeId;
 
+    @NotNull(message = "El campo businessId (ID de negocio) no puede ser nulo.")
+    @Positive(message = "El campo businessId (ID de negocio) debe ser un número positivo.")
+    private int businessId;
+
     @NotEmpty(message = "El campo name (nombre) no puede ser nulo ni estar vacío.")
     @Size(max = 50, message = "El campo name (nombre) no puede tener más de 50 caracteres.")
     private String name;
@@ -31,10 +35,6 @@ public class UserDTO {
     @NotEmpty(message = "El campo phone (teléfono) no puede ser nulo ni estar vacío.")
     @Size(max = 20, message = "El campo phone (teléfono) no puede tener más de 20 caracteres.")
     private String phone;
-
-    @NotEmpty(message = "El campo address (dirección) no puede ser nulo ni estar vacío.")
-    @Size(max = 100, message = "El campo address (dirección) no puede tener más de 100 caracteres.")
-    private String address;
 
     @NotEmpty(message = "El campo email (correo) no puede ser nulo ni estar vacío.")
     @Email(message = "El campo email (correo) debe ser una dirección de correo válida.")
@@ -45,4 +45,5 @@ public class UserDTO {
     @Size(min = 8, message = "El campo password (contraseña) debe tener al menos 8 caracteres.")
     private String password;
 
+    private boolean statusUser;
 }
