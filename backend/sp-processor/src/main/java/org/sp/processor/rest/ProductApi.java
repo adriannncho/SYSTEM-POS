@@ -3,6 +3,7 @@ package org.sp.processor.rest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -208,6 +209,68 @@ public class ProductApi {
     public Response updateProduct(@Valid ProductDTO productDTO){
         productService.productUpdate(productDTO);
         return Response.status(Response.Status.OK).build();
+    }
+
+    @PUT
+    @Transactional
+    @Path("/changeStatus/{idProduct}")
+    @APIResponses(
+            value = {
+                    @APIResponse(
+                            responseCode = "200",
+                            description = "Producto desactivado exitosamente."
+                    ),
+                    @APIResponse(
+                            responseCode = "400",
+                            description = "Errores de validación de entrada",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(
+                                            example = """
+                                                    {
+                                                      El numero del producto debe ser un número positivo.
+                                                    }"""
+                                    )
+                            )
+                    ),
+                    @APIResponse(
+                            responseCode = "404",
+                            description = "No se encontró el producto a desactivar.",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(
+                                            implementation = ProblemException.class,
+                                            properties = {
+                                                    @SchemaProperty(
+                                                            name = "detail",
+                                                            example = "Producto no encontrado."
+                                                    )
+                                            }
+                                    )
+                            )
+                    ),
+                    @APIResponse(
+                            responseCode = "500",
+                            description = "Error interno de servidor",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = HandlerException.ResponseError.class)
+                            )
+                    )
+            }
+    )
+    @Operation(
+            summary = "Desactivar o Activar el producto",
+            description = "Se actualiza el producto de forma exitosa"
+    )
+    public Response changeStatusProduct(
+            @PathParam("idProduct")
+            @Positive(message = "El id del producto debe ser un número positivo.")
+            Long idProduct
+    ) {
+        productService.changeStatusProduct(idProduct);
+        return  Response.status(Response.Status.OK).build();
+
     }
 
 

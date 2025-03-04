@@ -76,6 +76,23 @@ public class ProductService {
 
     }
 
+    public void changeStatusProduct(Long idProduct) throws PVException{
+        LOG.infof("@changeStatusProduct SERV > Start service to desactive product with ID %d", idProduct);
+
+        LOG.infof("@changeStatusProduct SERV > Serch producto to desactive with ID %d", idProduct);
+        Product existingProduct = productRepository.findById(idProduct);
+
+        LOG.infof("@changeStatusProduct SERV > Validate product with id %s", idProduct);
+        validateProduct(existingProduct);
+
+        LOG.infof("@changeStatusProduct SERV > Desactive product with id %s", idProduct);
+
+        existingProduct.setStatus(!existingProduct.isStatus());
+        productRepository.persist(existingProduct);
+
+        LOG.infof("@changeStatusProduct SERV > Successfully save product with id %s", idProduct);
+    }
+
     private void validateProduct(Product product){
         LOG.info("@validateProduct SERV > Validating if product exists");
 
@@ -84,4 +101,7 @@ public class ProductService {
             throw new PVException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontró el producto con el número de id ingresado.");
         }
     }
+
+
+
 }
