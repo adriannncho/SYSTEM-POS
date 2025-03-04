@@ -11,3 +11,5 @@ public class UserRepository implements PanacheRepository<User> {
         return find("documentNumber", documentNumber).firstResult();
     }
 }
+
+

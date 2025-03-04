@@ -3,17 +3,16 @@ package org.sp.processor.domain.product;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @Data
 public class ProductDTO {
 
-    @NotNull(message = "El campo prdLvlNumber (codigo de producto) no puede ser nulo o estar vacío.")
+    @NotNull(message = "El campo del Id no debe estar vacío")
     private int idProduct;
 
-    @NotNull(message = "El campo size (codigo de tamaño) no puede ser nulo o estar vacío.")
-    private int size;
-
     @NotNull(message = "El campo name (nombre) no puede ser nulo o estar vacío.")
+    @Schema(example = "TRUCHA ALBARDADA")
     private String name;
 
     @NotNull(message = "El campo description (descripción) no puede ser nulo o estar vacío.")
@@ -23,11 +22,9 @@ public class ProductDTO {
     @Positive(message = "El campo value (precio) no puede ser igual o menor a cero.")
     private Long value;
 
-    private int quantityClasic;
+    @NotNull(message = "El campo idCategory (categoria) no puede ser nulo o estar vacío.")
+    private int idCategory;
 
-    private int quantityPremium;
-
-    private int quantitySalsa;
-
-    private String status;
+    @NotNull(message = "El campo de ESTADO no puede ser nulo o esta vacío")
+    private boolean status;
 }

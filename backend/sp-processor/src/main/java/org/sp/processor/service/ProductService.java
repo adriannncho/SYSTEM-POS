@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
 import org.sp.processor.domain.product.Product;
+import org.sp.processor.domain.product.ProductDTO;
 import org.sp.processor.domain.product.ProductSaveDTO;
 import org.sp.processor.helper.exception.PVException;
 import org.sp.processor.repository.ProductRepository;
@@ -51,4 +52,36 @@ public class ProductService {
         productRepository.persist(product);
     }
 
+    public void productUpdate(ProductDTO productDTO){
+        LOG.infof("@productUpdate SERV > Start service for product update with id %s", productDTO.getIdProduct());
+
+        LOG.infof("@productUpdate SERV > Search product with id %s", productDTO.getIdProduct());
+        Product product = productRepository.findById((long) productDTO.getIdProduct());
+
+        LOG.infof("@productUpdate SERV > Validate product with id %s", productDTO.getIdProduct());
+        validateProduct(product);
+
+        LOG.infof("@productUpdate SERV > Update data product with id %s", productDTO.getIdProduct());
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setValue(productDTO.getValue());
+        product.setStatus(productDTO.isStatus());
+        product.setIdCategory(productDTO.getIdCategory());
+
+        LOG.infof("@productUpdate SERV > Save product with id %s", productDTO.getIdProduct());
+
+        productRepository.persist(product);
+
+        LOG.infof("@productUpdate SERV > Successfully save product with id %s", productDTO.getIdProduct());
+
+    }
+
+    private void validateProduct(Product product){
+        LOG.info("@validateProduct SERV > Validating if product exists");
+
+        if(product == null){
+            LOG.warn("@validateProduct SERV > No product found, throwing NOT_FOUND exception");
+            throw new PVException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontró el producto con el número de id ingresado.");
+        }
+    }
 }

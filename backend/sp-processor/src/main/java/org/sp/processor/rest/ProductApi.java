@@ -13,6 +13,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.media.SchemaProperty;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.sp.processor.domain.product.ProductDTO;
 import org.sp.processor.domain.product.ProductSaveDTO;
 import org.sp.processor.helper.exception.HandlerException;
 import org.sp.processor.helper.exception.ProblemException;
@@ -158,5 +159,56 @@ public class ProductApi {
         productService.saveProduct(productSaveDTO);
         return Response.status(Response.Status.CREATED).build();
     }
+
+    @PUT
+    @Transactional
+    @Path("/updateProduct")
+    @APIResponses(
+            value = {
+                    @APIResponse(
+                            responseCode = "200",
+                            description = "Se actualiza el producto correctamente"
+                    ),
+                    @APIResponse(
+                            responseCode = "400",
+                            description = "No hay registros de productos en base de datos.",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(
+                                            implementation = ProblemException.class,
+                                            properties = {
+                                                    @SchemaProperty(
+                                                            name = "detail",
+                                                            example = """
+                                                                        [
+                                                                               "El campo description (descripción) no puede ser nulo o estar vacío.",
+                                                                               "El campo name (nombre) no puede ser nulo o estar vacío.",
+                                                                               "El campo value (precio) no puede ser nulo o estar vacío."
+                                                                        ]
+                                                                    """
+                                                    )
+                                            }
+                                    )
+                            )
+                    ),
+                    @APIResponse(
+                            responseCode = "500",
+                            description = "Error interno de servidor",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = HandlerException.ResponseError.class)
+                            )
+                    )
+            }
+    )
+    @Operation(
+            summary = "Actualizar el producto",
+            description = "Se actualiza el producto de forma exitosa"
+    )
+    public Response updateProduct(@Valid ProductDTO productDTO){
+        productService.productUpdate(productDTO);
+        return Response.status(Response.Status.OK).build();
+    }
+
 
 }
