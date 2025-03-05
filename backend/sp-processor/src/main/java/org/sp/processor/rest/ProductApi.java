@@ -218,7 +218,7 @@ public class ProductApi {
             value = {
                     @APIResponse(
                             responseCode = "200",
-                            description = "Producto desactivado exitosamente."
+                            description = "Producto se cambio de estado exitosamente."
                     ),
                     @APIResponse(
                             responseCode = "400",
@@ -228,7 +228,7 @@ public class ProductApi {
                                     schema = @Schema(
                                             example = """
                                                     {
-                                                      El numero del producto debe ser un número positivo.
+                                                      El número del producto debe ser un número positivo.
                                                     }"""
                                     )
                             )
@@ -261,7 +261,7 @@ public class ProductApi {
     )
     @Operation(
             summary = "Desactivar o Activar el producto",
-            description = "Se actualiza el producto de forma exitosa"
+            description = "Se cambia estado del producto de forma exitosa"
     )
     public Response changeStatusProduct(
             @PathParam("idProduct")
@@ -272,6 +272,4 @@ public class ProductApi {
         return  Response.status(Response.Status.OK).build();
 
     }
-
-
 }

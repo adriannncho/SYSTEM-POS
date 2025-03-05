@@ -13,27 +13,14 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "PRODUCTOS")
-public class Product implements Serializable {
+@Table(name = "CATEGORIAS")
+public class Category implements Serializable {
 
     @Id
     @Column(name = "ID", length = 36)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idProduct;
+    private int idCategory;
 
     @Column(name = "NOMBRE")
     private String name;
-
-    @Column(name = "DESCRIPCION")
-    private String description;
-
-    @Column(name = "PRECIO")
-    private Long value;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-    @JoinColumn(name = "CATEGORIA_ID")
-    private Category category;
-
-    @Column(name = "ACTIVO")
-    private boolean status;
 }

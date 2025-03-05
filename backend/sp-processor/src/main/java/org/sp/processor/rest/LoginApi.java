@@ -202,12 +202,12 @@ public class LoginApi {
 
     @PUT
     @Transactional
-    @Path("/deleteUser/{userId}")
+    @Path("/changeStatusUser/{userId}")
     @APIResponses(
             value = {
                     @APIResponse(
                             responseCode = "200",
-                            description = "Usuario eliminado exitosamente."
+                            description = "Se cambio estado del usuario exitosamente."
                     ),
                     @APIResponse(
                             responseCode = "400",
@@ -249,15 +249,15 @@ public class LoginApi {
             }
     )
     @Operation(
-            summary = "Eliminación de usuario",
-            description = "Elimina un usuario en la aplicación"
+            summary = "Cambiar estado de usuario",
+            description = "Se cambio estado del usuario en la aplicación"
     )
-    public Response deleteUser(
+    public Response changeStatusUser(
             @PathParam("userId")
             @Positive(message = "El documento del usuario debe ser un número positivo.")
             Long userId
     ) {
-        loginService.inactiveUser(userId);
+        loginService.changeStatusUser(userId);
         return Response.status(Response.Status.OK).build();
     }
 
@@ -344,5 +344,4 @@ public class LoginApi {
     public Response getRole() {
         return Response.ok().entity(loginService.getRole()).build();
     }
-
 }

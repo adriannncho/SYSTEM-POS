@@ -70,7 +70,6 @@ public class LoginService {
         LOG.info("@validateUserExist SERV > User exists, proceeding with login validation");
     }
 
-
     private boolean checkPassword(String rawPassword, String encryptedPassword) throws PVException {
         try {
             return BCrypt.checkpw(rawPassword, encryptedPassword);
@@ -160,14 +159,14 @@ public class LoginService {
         LOG.infof("@updateUser SERV > User with ID %d updated successfully", userDTO.getDocumentNumber());
     }
 
-    public void inactiveUser(Long userId) throws PVException {
+    public void changeStatusUser(Long userId) throws PVException {
         LOG.infof("@deleteUser SERV > Start service to delete user with ID %d", userId);
 
         User existingUser = userRepository.findById(userId);
         validateUserExist(existingUser);
 
         LOG.infof("@deleteUser SERV > Deactivating user with ID %d", userId);
-        existingUser.setUserStatus(false);
+        existingUser.setUserStatus(!existingUser.isUserStatus());
         userRepository.persist(existingUser);
 
         LOG.infof("@deleteUser SERV > User with ID %d deleted successfully", userId);
@@ -202,5 +201,4 @@ public class LoginService {
         LOG.infof("@getRole SERV > Finish service to obtain roles");
         return roleList;
     }
-
 }

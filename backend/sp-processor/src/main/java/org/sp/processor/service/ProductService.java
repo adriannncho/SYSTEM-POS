@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
+import org.sp.processor.domain.product.Category;
 import org.sp.processor.domain.product.Product;
 import org.sp.processor.domain.product.ProductDTO;
 import org.sp.processor.domain.product.ProductSaveDTO;
@@ -34,16 +35,24 @@ public class ProductService {
         return productsList;
     }
 
-
-    public void saveProduct(ProductSaveDTO productSaveDTO){
+    public void saveProduct(ProductSaveDTO productSaveDTO) {
 
         LOG.infof("@saveProduct SERV > Start service to save a new product");
+
+        if (productRepository.findProductByNameValueAndCategory(productSaveDTO.getName(),
+                productSaveDTO.getValue(), productSaveDTO.getIdCategory()) != null) {
+
+            LOG.warnf("@saveProduct SERV > Product already exists with name : %s, value : %s, idCategory : %s",
+                    productSaveDTO.getName(), productSaveDTO.getValue(), productSaveDTO.getIdCategory());
+
+            throw new PVException(Response.Status.CONFLICT.getStatusCode(), "El producto ya existe.");
+        }
 
         LOG.infof("@saveProduct SERV > Creating product entity from DTO");
         Product product = Product.builder()
                 .name(productSaveDTO.getName())
                 .description(productSaveDTO.getDescription())
-                .idCategory(productSaveDTO.getIdCategory())
+                .category(Category.builder().idCategory(productSaveDTO.getIdCategory()).build())
                 .value(productSaveDTO.getValue())
                 .status(true)
                 .build();
@@ -52,7 +61,7 @@ public class ProductService {
         productRepository.persist(product);
     }
 
-    public void productUpdate(ProductDTO productDTO){
+    public void productUpdate(ProductDTO productDTO) {
         LOG.infof("@productUpdate SERV > Start service for product update with id %s", productDTO.getIdProduct());
 
         LOG.infof("@productUpdate SERV > Search product with id %s", productDTO.getIdProduct());
@@ -66,26 +75,25 @@ public class ProductService {
         product.setDescription(productDTO.getDescription());
         product.setValue(productDTO.getValue());
         product.setStatus(productDTO.isStatus());
-        product.setIdCategory(productDTO.getIdCategory());
+        product.setCategory(Category.builder().idCategory(productDTO.getIdCategory()).build());
 
         LOG.infof("@productUpdate SERV > Save product with id %s", productDTO.getIdProduct());
 
         productRepository.persist(product);
 
         LOG.infof("@productUpdate SERV > Successfully save product with id %s", productDTO.getIdProduct());
-
     }
 
-    public void changeStatusProduct(Long idProduct) throws PVException{
-        LOG.infof("@changeStatusProduct SERV > Start service to desactive product with ID %d", idProduct);
+    public void changeStatusProduct(Long idProduct) throws PVException {
+        LOG.infof("@changeStatusProduct SERV > Start service to deactivate product with ID %d", idProduct);
 
-        LOG.infof("@changeStatusProduct SERV > Serch producto to desactive with ID %d", idProduct);
+        LOG.infof("@changeStatusProduct SERV > Search product to deactivate with ID %d", idProduct);
         Product existingProduct = productRepository.findById(idProduct);
 
         LOG.infof("@changeStatusProduct SERV > Validate product with id %s", idProduct);
         validateProduct(existingProduct);
 
-        LOG.infof("@changeStatusProduct SERV > Desactive product with id %s", idProduct);
+        LOG.infof("@changeStatusProduct SERV > Deactivating product with id %s", idProduct);
 
         existingProduct.setStatus(!existingProduct.isStatus());
         productRepository.persist(existingProduct);
@@ -93,15 +101,12 @@ public class ProductService {
         LOG.infof("@changeStatusProduct SERV > Successfully save product with id %s", idProduct);
     }
 
-    private void validateProduct(Product product){
+    private void validateProduct(Product product) {
         LOG.info("@validateProduct SERV > Validating if product exists");
 
-        if(product == null){
+        if (product == null) {
             LOG.warn("@validateProduct SERV > No product found, throwing NOT_FOUND exception");
             throw new PVException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontró el producto con el número de id ingresado.");
         }
     }
-
-
-
 }
