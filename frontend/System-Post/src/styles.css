@@ -54,6 +54,12 @@
   --border-box-style: double;
 }
 
+/* ESTILOS FOOTHER */
 .ant-layout-footer {
   padding: 14px 14px;
+}
+
+/* ESTILOS MENU DRAWER */
+.ant-drawer-body {
+  padding: 0;
 }

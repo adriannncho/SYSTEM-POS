@@ -44,6 +44,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
 export const NG_ZORRO_MODULES = [
   // Angular Forms
@@ -94,5 +95,6 @@ export const NG_ZORRO_MODULES = [
   NzTimelineModule,
   NzCollapseModule,
   NzTabsModule,
-  NzBadgeModule
+  NzBadgeModule,
+  NzDrawerModule 
 ] as const;
