@@ -15,6 +15,7 @@ import org.sp.processor.repository.TypeDocumentRepository;
 import org.sp.processor.repository.UserRepository;
 
 import java.util.List;
+import java.util.Map;
 
 @ApplicationScoped
 public class LoginService {
@@ -36,7 +37,7 @@ public class LoginService {
     @Inject
     private TypeDocumentRepository typeDocumentRepository;
 
-    public String validateLogin(LoginDTO loginDTO) throws PVException {
+    public Map<String, String> validateLogin(LoginDTO loginDTO) throws PVException {
         LOG.infof("@validateLogin SERV > Start service to validate the user");
 
         User user = userRepository.findById(loginDTO.getDocument());
