@@ -1,0 +1,138 @@
+<div class="backgroundScreen centerContent">
+  <div class="backgroundForm centerContent">
+    <!-- Cuando este cargando se renderizara, esta pendiente -->
+    <!--       <div nz-row class="formStyle centerContent" *ngIf="loadingLogin">
+          <div nz-col nzSpan="24" class="centrar">
+              <div nz-row class="centerContent">
+                  <div nz-col class="centerContent" style="color: aliceblue;">
+                      <div nz-row>
+                           <div nz-col nzSpan="24" class="centerContent">
+                              <img src='../../../../../../assets/img/logoQfresa.png'
+                                  style="width: 50%; cursor:pointer;" routerLink="/" alt='logo LaQFresa'>
+                          </div>
+                          <div nz-col nzSpan="24" class="centerContent">
+                              <h3 class="loginTitle" nz-title>Iniciar sesión</h3>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div nz-col [nzXs]="24" [nzMd]="24" [nzLg]="24" [nzXl]="24" [nzXXl]="24">
+               
+          </div>
+      </div> -->
+    <!-- Cuando ya halla cargado se renderizara, esta pendiente -->
+    @if (!loadingLogin) {
+        <div nz-row class="centerContent formStyle">
+        <div nz-col [nzXs]="20" [nzMd]="20" [nzLg]="20" [nzXl]="20" [nzXXl]="20">
+            <form
+            nz-form
+            [formGroup]="validateForm"
+            class="login-form"
+            (ngSubmit)="isValidForm()"
+            >
+            <div nz-row class="centerContent">
+                <div nz-col class="centerContent" style="color: aliceblue">
+                <div nz-row>
+                    <div nz-col nzSpan="24" class="centerContent">
+                    <img
+                        src="../../../../../../assets/img/logoQfresa.png"
+                        style="width: 50%; cursor: pointer"
+                        routerLink="/"
+                        alt="logo LaQFresa"
+                    />
+                    </div>
+                    <div nz-col nzSpan="24" class="centerContent">
+                    <h3 class="loginTitle" nz-title>Iniciar sesión</h3>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <nz-form-item>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorUser">
+                <nz-input-group nzPrefixIcon="user">
+                    <input
+                    type="text"
+                    nz-input
+                    formControlName="numDocument"
+                    placeholder="Numero de documento"
+                    autocomplete="current-numDocument"
+                    (focus)="numDocumentTouched = true"
+                    (blur)="markTouched('numDocument')"
+                    />
+                </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control nzHasFeedback [nzErrorTip]="errorPassword">
+                <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixPassword">
+                    <input
+                    [type]="passwordVisible ? 'text' : 'password'"
+                    nz-input
+                    formControlName="password"
+                    placeholder="Contraseña"
+                    autocomplete="current-password"
+                    (focus)="passwordTouched = true"
+                    (blur)="markTouched('password')"
+                    />
+                </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <button nz-button class="btn-ingresar" [nzType]="'primary'">
+                Iniciar sesión
+            </button>
+            </form>
+        </div>
+        </div>
+    }
+  </div>
+</div>
+<ng-template #errorUser>
+  @if (validateForm.controls['numDocument'].hasError('required') &&
+  !numDocumentTouched) {
+  <p>Por favor ingrese su número de documento.</p>
+  } @if (validateForm.controls['numDocument'].hasError('minlength') &&
+  !numDocumentTouched) {
+  <p>El número de documento debe tener mínimo 7 números.</p>
+  } @if (validateForm.controls['numDocument'].hasError('maxlength') &&
+  !numDocumentTouched) {
+  <p>El número de documento no debe tener más de 11 números.</p>
+  } @if (validateForm.controls['numDocument'].hasError('pattern') &&
+  !numDocumentTouched) {
+  <p>Por favor ingrese solo números.</p>
+  }
+</ng-template>
+<ng-template #errorPassword>
+  @if (validateForm.controls['password'].hasError('required') &&
+  !passwordTouched) {
+  <p>Por favor ingrese su contraseña.</p>
+  } @if (validateForm.controls['password'].hasError('minlength') &&
+  !passwordTouched) {
+  <p>La contraseña debe tener minimo 6 caracteres.</p>
+  } @if (validateForm.controls['password'].hasError('maxlength') &&
+  !passwordTouched) {
+  <p>La contraseña no debe tener mas de 15 caracteres.</p>
+  } @if (validateForm.controls['password'].hasError('pattern') &&
+  !passwordTouched) {
+  <p>La contraseña debe contener minimo un número</p>
+  }
+</ng-template>
+<ng-template #suffixPassword>
+  @if (!passwordVisible) {
+    <span
+        nz-icon
+        nzType="eye-invisible"
+        nzTheme="outline"
+        (click)="passwordVisible = !passwordVisible"
+        style="cursor: pointer"
+    ></span>
+  } @else {
+    <span
+        nz-icon
+        nzType="eye"
+        nzTheme="outline"
+        (click)="passwordVisible = !passwordVisible"
+        style="cursor: pointer"
+    ></span>
+  }
+</ng-template>
