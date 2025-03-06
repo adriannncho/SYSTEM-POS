@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class Token {
 
-    public static String generateToken(User user, String keyToken, String issuerToken) {
+    public static Map<String, String> generateToken(User user, String keyToken, String issuerToken) {
 
         Map<String, Object> customClaims = new HashMap<>();
         customClaims.put("groups", List.of("SP_" + user.getUserType().getName()));
@@ -23,7 +23,7 @@ public class Token {
         Instant now = Instant.now();
         Instant expiration = now.plus(1, ChronoUnit.HOURS);
 
-        return JWT.create()
+        String accessToken = JWT.create()
                 .withIssuer(issuerToken)
                 .withSubject(user.getName())
                 .withClaim("document_number", user.getDocumentNumber())
@@ -32,5 +32,10 @@ public class Token {
                 .withExpiresAt(Date.from(expiration))
                 .withPayload(customClaims)
                 .sign(Algorithm.HMAC256(keyToken));
+
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("access_token", accessToken);
+
+        return tokens;
     }
 }
