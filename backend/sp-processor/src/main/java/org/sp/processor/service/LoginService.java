@@ -1,5 +1,8 @@
 package org.sp.processor.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
@@ -14,6 +17,7 @@ import org.sp.processor.repository.RoleRepository;
 import org.sp.processor.repository.TypeDocumentRepository;
 import org.sp.processor.repository.UserRepository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @ApplicationScoped
@@ -77,6 +81,41 @@ public class LoginService {
             LOG.errorf("@checkPassword SERV > Error validating password", e);
             throw new PVException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Error validando la contraseña.");
         }
+    }
+
+    public Map<String, String> refreshToken(String authHeader) {
+        LOG.infof("@refreshToken SERV > Extracting token from Authorization header");
+
+        String token = authHeader.substring(7);
+        LOG.infof("@refreshToken SERV > Token extracted: %s", token);
+
+        DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(keyToken))
+                .build()
+                .verify(token);
+
+        LOG.infof("@refreshToken SERV > Decoded JWT: %s", decodedJWT.getClaims());
+
+        Long documentNumber = decodedJWT.getClaim("document_number").asLong();
+        LOG.infof("@refreshToken SERV > Extracted document number: %s", documentNumber);
+
+        User user = userRepository.findByDocumentNumber(documentNumber);
+
+        if (user == null) {
+            LOG.warnf("@refreshToken SERV > User not found with document number: %s", documentNumber);
+            throw new PVException(Response.Status.UNAUTHORIZED.getStatusCode(), "Usuario no encontrado");
+        }
+
+        LOG.infof("@refreshToken SERV > Validate the user found: %s", user);
+
+        Map<String, String> newToken = Token.generateToken(user, keyToken, issuerToken);
+        LOG.infof("@refreshToken SERV > New token generated successfully");
+
+        Map<String, String> tokenRefresh = new HashMap<>();
+        tokenRefresh.put("refresh_token", newToken.get("access_token"));
+
+        LOG.infof("@refreshToken SERV > Returning refreshed token for user: %s", user.getDocumentNumber());
+
+        return tokenRefresh;
     }
 
     public void saveUser(UserDTO userDTO) throws PVException {
