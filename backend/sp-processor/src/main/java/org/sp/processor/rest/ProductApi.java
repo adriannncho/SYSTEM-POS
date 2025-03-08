@@ -272,4 +272,71 @@ public class ProductApi {
         return  Response.status(Response.Status.OK).build();
 
     }
+    
+    @GET
+    @Path("/category")
+    @APIResponses(
+            value = {
+                    @APIResponse(
+                            responseCode = "200",
+                            description = "Se obtiene el listado de categorías correctamente",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(
+                                            type = SchemaType.ARRAY,
+                                            example = """
+                                                    [
+                                                             {
+                                                                  "idCategory": 3,
+                                                                  "name": "Bebidas"
+                                                              },
+                                                              {
+                                                                  "idCategory": 1,
+                                                                  "name": "Entradas"
+                                                              },
+                                                              {
+                                                                  "idCategory": 2,
+                                                                  "name": "Platos Fuertes"
+                                                              },
+                                                              {
+                                                                  "idCategory": 4,
+                                                                  "name": "Postres"
+                                                              }
+                                                     ]"""
+                                    )
+                            )
+                    ),
+                    @APIResponse(
+                            responseCode = "404",
+                            description = "No hay registros de categorías en base de datos.",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(
+                                            implementation = ProblemException.class,
+                                            properties = {
+                                                    @SchemaProperty(
+                                                            name = "detail",
+                                                            example = "No se encontraron registro de categorías."
+                                                    )
+                                            }
+                                    )
+                            )
+                    ),
+                    @APIResponse(
+                            responseCode = "500",
+                            description = "Error interno de servidor",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = HandlerException.ResponseError.class)
+                            )
+                    )
+            }
+    )
+    @Operation(
+            summary = "Obtener listado de productos",
+            description = "Se obtiene el listado con la información de las categorías registradas"
+    )
+    public Response getCategory(){
+        return Response.ok().entity(productService.getCategory()).build();
+    }
 }

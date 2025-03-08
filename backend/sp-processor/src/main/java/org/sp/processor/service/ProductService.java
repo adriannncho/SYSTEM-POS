@@ -9,6 +9,7 @@ import org.sp.processor.domain.product.Product;
 import org.sp.processor.domain.product.ProductDTO;
 import org.sp.processor.domain.product.ProductSaveDTO;
 import org.sp.processor.helper.exception.PVException;
+import org.sp.processor.repository.CategoryRepository;
 import org.sp.processor.repository.ProductRepository;
 
 import java.util.List;
@@ -20,6 +21,9 @@ public class ProductService {
 
     @Inject
     private ProductRepository productRepository;
+
+    @Inject
+    private CategoryRepository categoryRepository;
 
     public List<Product> getProducts() {
         LOG.infof("@getProducts SERV > Start service to retrieve products");
@@ -108,5 +112,19 @@ public class ProductService {
             LOG.warn("@validateProduct SERV > No product found, throwing NOT_FOUND exception");
             throw new PVException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontró el producto con el número de id ingresado.");
         }
+    }
+
+    public List<Category> getCategory() {
+        LOG.infof("@getCategory SERV > Start service to retrieve products");
+
+        List<Category> categoryList = categoryRepository.listAll();
+
+        if (categoryList.isEmpty()) {
+            LOG.warnf("@getCategory SERV > No categories found");
+            throw new PVException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontraron categorías");
+        }
+        LOG.infof("@getCategory SERV > Retrieved %d categories", categoryList.size());
+
+        return categoryList;
     }
 }
