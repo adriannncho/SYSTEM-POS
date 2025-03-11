@@ -1,5 +1,7 @@
 package org.sp.processor.domain.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,6 +47,7 @@ public class Orders implements Serializable {
     @Column(name = "TOTAL")
     private Long amount;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DetailOrder> detailsOrders;
 
