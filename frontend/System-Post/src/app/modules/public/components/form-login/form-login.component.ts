@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../../../core/services/authentication/
 import { FormPatterns } from '../../../../core/utils/interfaces/generals.interfaces';
 import { NG_ZORRO_MODULES } from '../../../../shared/config/ng-zorro.config';
 import { JwtDecodeUser } from '../../../../core/models/authentication/auth.interface';
+import { NotificationService } from '../../../../core/services/notification/notification.service';
 
 @Component({
   selector: 'app-form-login',
@@ -27,7 +28,8 @@ export class FormLoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -87,7 +89,7 @@ export class FormLoginComponent {
           message = error.error.detail;
         }
         this.loadingLogin = false;
-        //this.notificationService.error(message, 'Error');
+        this.notificationService.error(message, 'Error');
       }
     );
   }
