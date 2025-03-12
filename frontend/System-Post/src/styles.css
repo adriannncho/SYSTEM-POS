@@ -54,6 +54,14 @@
   --border-box-style: double;
 }
 
+/* CLASES GENERALES */
+.centerContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 /* ESTILOS FOOTHER */
 .ant-layout-footer {
   padding: 14px 14px;
