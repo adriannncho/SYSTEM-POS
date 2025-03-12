@@ -1,5 +1,6 @@
 package org.sp.processor.domain.order;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.vavr.collection.Tree;
 import jakarta.persistence.*;
@@ -24,6 +25,7 @@ public class DetailOrder implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idDetailOrder;
 
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @JoinColumn(name = "PEDIDO_ID")
     private Orders order;
