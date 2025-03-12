@@ -17,6 +17,7 @@ import org.sp.processor.domain.user.LoginDTO;
 import org.sp.processor.domain.user.UserDTO;
 import org.sp.processor.helper.exception.HandlerException;
 import org.sp.processor.helper.exception.ProblemException;
+import org.sp.processor.helper.jwt.Token;
 import org.sp.processor.service.LoginService;
 
 @Path("/sp-processor")
@@ -70,6 +71,54 @@ public class LoginApi {
             @Valid LoginDTO loginDTO
     ) {
         return Response.ok().entity(loginService.validateLogin(loginDTO)).build();
+    }
+
+    @POST
+    @Path("/auth/refresh")
+    @APIResponses(
+            value = {
+                    @APIResponse(
+                            responseCode = "200",
+                            description = "Token refrescado correctamente.",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(
+                                            implementation = Token.class
+                                    )
+                            )
+                    ),
+                    @APIResponse(
+                            responseCode = "401",
+                            description = "Usuario no encontrado o token inválido.",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(
+                                            implementation = ProblemException.class,
+                                            properties = {
+                                                    @SchemaProperty(
+                                                            name = "detail",
+                                                            example = "No se encontró el usuario con el que se intenta refrescar el token."
+                                                    )
+                                            }
+                                    )
+                            )
+                    ),
+                    @APIResponse(
+                            responseCode = "500",
+                            description = "Error interno de servidor",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = HandlerException.ResponseError.class)
+                            )
+                    )
+            }
+    )
+    @Operation(
+            summary = "Refrescar el token de acceso",
+            description = "Permite refrescar el token de acceso mediante el uso de un refresh token válido."
+    )
+    public Response refreshToken(@HeaderParam("Authorization") String authHeader){
+        return Response.ok().entity(loginService.refreshToken(authHeader)).build();
     }
 
     @POST
