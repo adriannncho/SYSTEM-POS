@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../../core/services/authentication/authentication.service';
 import { FormPatterns } from '../../../../core/utils/interfaces/generals.interfaces';
 import { NG_ZORRO_MODULES } from '../../../../shared/config/ng-zorro.config';
+import { JwtDecodeUser } from '../../../../core/models/authentication/auth.interface';
+import { NotificationService } from '../../../../core/services/notification/notification.service';
 
 @Component({
   selector: 'app-form-login',
@@ -26,7 +28,8 @@ export class FormLoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -58,46 +61,39 @@ export class FormLoginComponent {
       this.showErrorTips();
     }
   }
+
   /**
    *   Realiza el inicio de sesion con el numero de documento y la contraseña
    */
   signinWithIdentificationAndPassword() {
     this.loadingLogin = true;
     const body = {
-      identification: this.validateForm.controls['numDocument'].value,
+      document: this.validateForm.controls['numDocument'].value,
       password: this.validateForm.controls['password'].value,
     };
-    this.authService
-      .signinWhithIdentificationAndPassword(body.identification, body.password)
-      .subscribe(
-        (res) => {
-          if (res) {
-            this.router.navigate(['/']);
-            this.loadingLogin = false;
-            //this.authService.saveRoleLogged(res.userType.name, res.firstName);
-            // this.authService.saveIdUser(res.documentNumber.toString())
-            //this.notificationService.success("Bienvenido a La Q'Fresa")
-          }
-        },
-        (error) => {
-          let message: string =
-            'Ocurrio un error al iniciar sesión por favor intente nuevamente';
-          if (error) {
-            if (
-              (error &&
-                error.error &&
-                error.error.detail &&
-                error.status >= 400) ||
-              error.status < 499
-            ) {
-              message = error.error.detail;
-            }
-          }
-          this.loadingLogin = false;
-          //this.notificationService.error(message, 'Error');
+  
+    this.authService.signinWhithIdentificationAndPassword(body).subscribe(
+      (res) => {
+        if (res && res.access_token) {
+          this.authService.setToken(res.access_token);
+          const infoUser: JwtDecodeUser = this.authService.getInformationUserAuth();
+          this.router.navigate(['/']);
+          const message = "Bienvenido a " + infoUser.business_id;
+          //this.notificationService.success(message);
         }
-      );
+        this.loadingLogin = false;
+      },
+      (error) => {
+        let message = 'Ocurrió un error al iniciar sesión, por favor intente nuevamente';
+        if (error?.error?.detail && error.status >= 400 && error.status < 499) {
+          message = error.error.detail;
+        }
+        this.loadingLogin = false;
+        this.notificationService.error(message, 'Error');
+      }
+    );
   }
+  
 
   showErrorTips() {
     this.validateForm.controls['numDocument'].markAllAsTouched();
