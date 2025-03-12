@@ -16,7 +16,6 @@ import org.eclipse.microprofile.openapi.annotations.media.SchemaProperty;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.sp.processor.domain.order.OrderDTO;
-import org.sp.processor.domain.product.ProductSaveDTO;
 import org.sp.processor.helper.exception.HandlerException;
 import org.sp.processor.helper.exception.ProblemException;
 import org.sp.processor.service.OrderService;
@@ -500,7 +499,7 @@ public class OrderApi {
             description = "Se crea el pedido con el número de mesa y con la informacion relacionada de su detalla" +
                     " de forma exitosa"
     )
-    public Response createOrderByNumberTable(@Valid OrderDTO orderDTO){
+    public Response createOrderByNumberTable(@Valid OrderDTO orderDTO) {
         orderService.createOrderByNumberTable(orderDTO);
         return Response.status(Response.Status.CREATED).build();
     }

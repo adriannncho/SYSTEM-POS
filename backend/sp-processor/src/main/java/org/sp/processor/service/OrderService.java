@@ -79,7 +79,7 @@ public class OrderService {
         return informationOrderDTO;
     }
 
-    private double calculateTotalAmountOrder(List<Orders> ordersList){
+    private double calculateTotalAmountOrder(List<Orders> ordersList) {
         return ordersList.stream()
                 .flatMap(order -> order.getDetailsOrders().stream())
                 .mapToDouble(DetailOrder::getSubTotal)
