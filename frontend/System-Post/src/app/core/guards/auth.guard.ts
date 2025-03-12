@@ -17,9 +17,10 @@ export class AuthGuard {
 
   canActivate() {
     let isLogged: boolean = false;
-    if(this.authService.isAuthenticated()) {
+    if(this.authService.isAuthenticated() && this.authService.isTokenValid()) {
       isLogged = true;
     } else {
+      this.authService.logout();
       isLogged = false;
       this.router.navigate(['/signin'])
       this.notificationService.warning('Es necesario Iniciar sesión para acceder a esta ruta');

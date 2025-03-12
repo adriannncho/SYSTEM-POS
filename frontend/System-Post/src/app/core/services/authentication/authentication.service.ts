@@ -99,4 +99,16 @@ export class AuthenticationService {
     localStorage.removeItem('token');
     this.router.navigate(['/signin'])
   }
+
+  isTokenValid(): boolean {
+    const infoToken = this.getInformationUserAuth();
+    const now = Date.now() / 1000; // Tiempo actual en segundos
+  
+    // Si no hay token o ya expiró, el token es inválido
+    if (!infoToken.exp || infoToken.exp <= now) {
+      return false;
+    }
+  
+    return true;
+  }
 }
