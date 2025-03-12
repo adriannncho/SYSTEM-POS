@@ -62,4 +62,8 @@ export class AuthenticationService {
     // Retornamos el rol encontrado o NOT_ROLE por defecto
     return userRole ? (userRole as GroupsAuth) : GroupsAuth.NOT_ROLE;
   }
+
+  getToken(): string | null {
+    return localStorage.getItem("token");
+  }
 }
