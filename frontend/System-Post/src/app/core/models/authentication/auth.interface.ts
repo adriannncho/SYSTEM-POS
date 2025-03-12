@@ -7,6 +7,10 @@ export interface ResponseLogin {
   access_token: string
 }
 
+export interface ResponseRefresh {
+  refresh_token: string
+}
+
 export interface JwtDecodeUser {
   iss: string,
   sub: string,

@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { environment } from '../../../enviroments/environment.local';
 import { Observable } from 'rxjs';
-import { GroupsAuth, JwtDecodeUser, LoginBody, ResponseLogin } from '../../models/authentication/auth.interface';
+import { GroupsAuth, JwtDecodeUser, LoginBody, ResponseLogin, ResponseRefresh } from '../../models/authentication/auth.interface';
 import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,27 @@ export class AuthenticationService {
 
   private readonly apiUrl: string = environment.apiUrlSP.sp_procesor;
 
+  isRefreshing: WritableSignal<boolean> = signal(false);
+
   constructor(
     private http: HttpClient,
+    private router: Router,
   ) { }
 
   signinWhithIdentificationAndPassword(body: LoginBody): Observable<ResponseLogin> {
     return this.http.post<ResponseLogin>(`${this.apiUrl}/login`, body);
+  }
+
+  setToken(token: string) {
+    localStorage.setItem('token', token);
+  }
+
+  startRefreshing() {
+    this.isRefreshing.set(true);
+  }
+
+  stopRefreshing() {
+    this.isRefreshing.set(false);
   }
 
   getInformationUserAuth(): JwtDecodeUser {
@@ -69,5 +85,18 @@ export class AuthenticationService {
 
   isAuthenticated(): boolean {
     return !!this.getToken();
+  }
+
+  /**
+   * Realiza la peticion a back para obtener el token refrescado
+   * @returns Token refrescado
+   */
+  refreshToken(): Observable<ResponseRefresh> {
+    return this.http.post<ResponseRefresh>(`${this.apiUrl}/refresh`, null);
+  }
+
+  logout () {
+    localStorage.removeItem('token');
+    this.router.navigate(['/signin'])
   }
 }

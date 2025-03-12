@@ -75,7 +75,7 @@ export class FormLoginComponent {
     this.authService.signinWhithIdentificationAndPassword(body).subscribe(
       (res) => {
         if (res && res.access_token) {
-          localStorage.setItem('token', res.access_token);
+          this.authService.setToken(res.access_token);
           const infoUser: JwtDecodeUser = this.authService.getInformationUserAuth();
           this.router.navigate(['/']);
           const message = "Bienvenido a " + infoUser.business_id;
