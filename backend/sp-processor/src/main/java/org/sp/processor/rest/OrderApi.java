@@ -2,6 +2,7 @@ package org.sp.processor.rest;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.ws.rs.*;
@@ -14,6 +15,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.media.SchemaProperty;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.sp.processor.domain.order.OrderDTO;
+import org.sp.processor.domain.product.ProductSaveDTO;
 import org.sp.processor.helper.exception.HandlerException;
 import org.sp.processor.helper.exception.ProblemException;
 import org.sp.processor.service.OrderService;
@@ -442,4 +445,63 @@ public class OrderApi {
         return Response.ok().build();
     }
 
+    @POST
+    @Transactional
+    @Path("/createOrderByTableNumber")
+    @APIResponses(
+            value = {
+                    @APIResponse(
+                            responseCode = "200",
+                            description = "Se crea el pedido de la mesa seleccionada correctamente"
+                    ),
+                    @APIResponse(
+                            responseCode = "400",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(
+                                            implementation = ProblemException.class,
+                                            properties = {
+                                                    @SchemaProperty(
+                                                            name = "detail",
+                                                            example = """
+                                                                        [
+                                                                            "El campo 'userId' (id de usuario) no debe estar vacío",
+                                                                            "El campo 'tableNumber' (número de mesa) no debe estar vacío",
+                                                                            "El campo 'businessId' (id de negocio) no debe estar vacío",
+                                                                            "La lista 'detailsOrders' no debe estar vacía",
+                                                                            "El ID del usuario debe ser un número positivo",
+                                                                            "El número de mesa debe ser un número positivo",
+                                                                            "El ID del negocio debe ser un número positivo",
+                                                                            "La observación no debe superar los 255 caracteres",
+                                                                            La cantidad mínima debe ser 1",
+                                                                            "La cantidad debe ser un número positivo",
+                                                                            "El campo quantity (cantidad) no debe estar vacío",
+                                                                            "El ID del producto debe ser un número positivo",
+                                                                            "El campo productId (Id del producto) no debe estar vacío"
+                                                                        ]
+                                                                    """
+                                                    )
+                                            }
+                                    )
+                            )
+                    ),
+                    @APIResponse(
+                            responseCode = "500",
+                            description = "Error interno de servidor",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = HandlerException.ResponseError.class)
+                            )
+                    )
+            }
+    )
+    @Operation(
+            summary = "Se crea el pedido con el número de mesa de forma exitosa",
+            description = "Se crea el pedido con el número de mesa y con la informacion relacionada de su detalla" +
+                    " de forma exitosa"
+    )
+    public Response createOrderByNumberTable(@Valid OrderDTO orderDTO){
+        orderService.createOrderByNumberTable(orderDTO);
+        return Response.status(Response.Status.CREATED).build();
+    }
 }

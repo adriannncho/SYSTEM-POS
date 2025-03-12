@@ -14,6 +14,6 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
     List<Orders> findAllWithDetails();
 
     @Query("SELECT o FROM Orders o LEFT JOIN FETCH o.detailsOrders WHERE o.numberTable = ?1 AND o.status = ?2")
-    Orders findOrderByNumberTableWithDetails(Long numberTable, String orderStatusPending);
+    List<Orders> findOrderByNumberTableWithDetails(Long numberTable, String orderStatusPending);
 
 }
