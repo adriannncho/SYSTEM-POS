@@ -1,20 +1,20 @@
 /* Variables de color para SP*/
 :root {
   /*Variantes de colores primarios*/
-  --color-primary-blue: #27395b;
-  --color-primary-blue-light: #4f5b8a;
-  --color-primary-blue-dark: #424c75;
+  --color-primary-green: #89AF83;
+  --color-primary-green-light: #C2E9DD;
+  --color-primary-green-dark: #50CD89;
   --color-primary-blue-ash: #19477c;
-  --color-primary-red: #DD0021;
+  --color-primary-red: #F60000;
   --color-primary-red-shaded: #AC0111;
   --color-primary-red-dark: #770012;
   --color-primary-red-light: #F7CAC8;
-  --color-neutral-gray: #333333;
-  --color-primary-gray: #606060;
-  --color-neutral-gray-cold: #595959;
-  --color-neutral-gray-medium: #8C8C8C;
-  --color-neutral-gray-warm: #BFBFBF;
-  --color-neutral-gray-light: #F5F5F5;
+  --color-neutral-gray: #3D4142;
+  --color-primary-gray: #777979;
+  --color-neutral-gray-cold: #292C2D;
+  --color-neutral-gray-medium: #444444;
+  --color-neutral-gray-warm: #3D4142;
+  --color-neutral-gray-light: #D9D9D9;
   --color-neutral-white: #FFFFFF;
   --color-primary-yellow: #FBD600;
   --color-secondary-orange-base: #EFAE30;
