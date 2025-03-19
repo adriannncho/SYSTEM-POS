@@ -25,7 +25,7 @@ public class HandlerException implements ExceptionMapper<Exception> {
     }
 
     private Response mapExceptionToResponsePVIntegration(Exception exception) {
-        if (exception instanceof PVException ex) {
+        if (exception instanceof SPException ex) {
             ProblemException problemException = ProblemException.builder()
                     .host(httpServerRequestProvider.get().host())
                     .title(ex.getStatus().getReasonPhrase())
@@ -38,7 +38,7 @@ public class HandlerException implements ExceptionMapper<Exception> {
             }
             return Response.status(ex.getStatus()).entity(problemException).build();
         }
-        if (exception instanceof PVRestClientRuntimeException ex) {
+        if (exception instanceof SPRestClientRuntimeException ex) {
             LOG.errorf(ex, "@mapExceptionToResponsePVIntegration - Error during rest client, status %s, body %s",
                     ex.getStatus().getStatusCode(), ex.getProblem());
             return Response.status(ex.getStatus()).entity(ex.getProblem()).build();

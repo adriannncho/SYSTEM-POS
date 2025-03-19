@@ -9,7 +9,7 @@ import org.sp.processor.domain.business.Business;
 import org.sp.processor.domain.order.*;
 import org.sp.processor.domain.product.Product;
 import org.sp.processor.domain.user.User;
-import org.sp.processor.helper.exception.PVException;
+import org.sp.processor.helper.exception.SPException;
 import org.sp.processor.repository.DetailOrderRepository;
 import org.sp.processor.repository.OrderRepository;
 import org.sp.processor.repository.ProductRepository;
@@ -58,7 +58,7 @@ public class OrderService {
 
         if (ordersList.isEmpty()) {
             LOG.warnf("@validExistOrders SERV > No orders found in the database");
-            throw new PVException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontraron pedidos registrados.");
+            throw new SPException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontraron pedidos registrados.");
         }
 
         LOG.infof("@validExistOrders SERV > Order existence validated successfully");
@@ -105,7 +105,7 @@ public class OrderService {
 
         if (order.isEmpty()) {
             LOG.warnf("@findPendingOrderByTable SERV > No pending orders found for table number: %s", numberTable);
-            throw new PVException(Response.Status.NOT_FOUND.getStatusCode(),
+            throw new SPException(Response.Status.NOT_FOUND.getStatusCode(),
                     "No se encontraron detalles de pedidos pendientes de la mesa: " + numberTable + ".");
         }
 

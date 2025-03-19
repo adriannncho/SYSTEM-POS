@@ -11,7 +11,7 @@ import org.jboss.logging.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 import org.sp.processor.domain.business.Business;
 import org.sp.processor.domain.user.*;
-import org.sp.processor.helper.exception.PVException;
+import org.sp.processor.helper.exception.SPException;
 import org.sp.processor.helper.jwt.Token;
 import org.sp.processor.repository.RoleRepository;
 import org.sp.processor.repository.TypeDocumentRepository;
@@ -41,7 +41,7 @@ public class LoginService {
     @Inject
     private TypeDocumentRepository typeDocumentRepository;
 
-    public Map<String, String> validateLogin(LoginDTO loginDTO) throws PVException {
+    public Map<String, String> validateLogin(LoginDTO loginDTO) throws SPException {
         LOG.infof("@validateLogin SERV > Start service to validate the user");
 
         User user = userRepository.findById(loginDTO.getDocument());
@@ -51,12 +51,12 @@ public class LoginService {
 
         if (!user.isUserStatus()) {
             LOG.warnf("@validateLogin SERV > No user found");
-            throw new PVException(Response.Status.NOT_FOUND.getStatusCode(), "El usuario con el que intentas acceder esta desactivado.");
+            throw new SPException(Response.Status.NOT_FOUND.getStatusCode(), "El usuario con el que intentas acceder esta desactivado.");
         }
 
         if (!checkPassword(loginDTO.getPassword(), user.getPassword())) {
             LOG.warnf("@validateLogin SERV > Incorrect password");
-            throw new PVException(Response.Status.UNAUTHORIZED.getStatusCode(), "Contraseña incorrecta.");
+            throw new SPException(Response.Status.UNAUTHORIZED.getStatusCode(), "Contraseña incorrecta.");
         }
 
         LOG.infof("@validateLogin SERV > Finish service to validate the user");
@@ -69,18 +69,18 @@ public class LoginService {
 
         if (user == null) {
             LOG.warn("@validateUserExist SERV > No user found, throwing NOT_FOUND exception");
-            throw new PVException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontró usuario con el número de documento ingresado.");
+            throw new SPException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontró usuario con el número de documento ingresado.");
         }
 
         LOG.info("@validateUserExist SERV > User exists, proceeding with login validation");
     }
 
-    private boolean checkPassword(String rawPassword, String encryptedPassword) throws PVException {
+    private boolean checkPassword(String rawPassword, String encryptedPassword) throws SPException {
         try {
             return BCrypt.checkpw(rawPassword, encryptedPassword);
         } catch (Exception e) {
             LOG.errorf("@checkPassword SERV > Error validating password", e);
-            throw new PVException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Error validando la contraseña.");
+            throw new SPException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Error validando la contraseña.");
         }
     }
 
@@ -103,7 +103,7 @@ public class LoginService {
 
         if (user == null) {
             LOG.warnf("@refreshToken SERV > User not found with document number: %s", documentNumber);
-            throw new PVException(Response.Status.UNAUTHORIZED.getStatusCode(), "Usuario no encontrado");
+            throw new SPException(Response.Status.UNAUTHORIZED.getStatusCode(), "Usuario no encontrado");
         }
 
         LOG.infof("@refreshToken SERV > Validate the user found: %s", user);
@@ -119,12 +119,12 @@ public class LoginService {
         return tokenRefresh;
     }
 
-    public void saveUser(UserDTO userDTO) throws PVException {
+    public void saveUser(UserDTO userDTO) throws SPException {
         LOG.infof("@saveUser SERV > Start service to save a new user");
 
         if (userRepository.findByDocumentNumber(userDTO.getDocumentNumber()) != null) {
             LOG.warnf("@saveUser SERV > User already exists with document number %s", userDTO.getDocumentNumber());
-            throw new PVException(Response.Status.CONFLICT.getStatusCode(), "El usuario ya existe.");
+            throw new SPException(Response.Status.CONFLICT.getStatusCode(), "El usuario ya existe.");
         }
 
         String encryptedPassword = encryptPassword(userDTO.getPassword());
@@ -154,16 +154,16 @@ public class LoginService {
         LOG.infof("@saveUser SERV > User saved successfully with document number %s", userDTO.getDocumentNumber());
     }
 
-    private String encryptPassword(String password) throws PVException {
+    private String encryptPassword(String password) throws SPException {
         try {
             return BCrypt.hashpw(password, BCrypt.gensalt());
         } catch (Exception e) {
             LOG.errorf("@encryptPassword SERV > Error encrypting password", e);
-            throw new PVException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Error encriptando la contraseña.");
+            throw new SPException(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Error encriptando la contraseña.");
         }
     }
 
-    public void updateUser(UserDTO userDTO) throws PVException {
+    public void updateUser(UserDTO userDTO) throws SPException {
         LOG.infof("@updateUser SERV > Start service to update user with ID %d", userDTO.getDocumentNumber());
 
         User existingUser = userRepository.findById(userDTO.getDocumentNumber());
@@ -190,7 +190,7 @@ public class LoginService {
             LOG.infof("@updateUser SERV > Password encrypted successfully for user ID %d", userDTO.getDocumentNumber());
         } else {
             LOG.errorf("@updateUser SERV > Password is null or empty for user ID %d", userDTO.getDocumentNumber());
-            throw new PVException(Response.Status.CONFLICT.getStatusCode(), "La contraseña no puede estar vacía o ser nula.");
+            throw new SPException(Response.Status.CONFLICT.getStatusCode(), "La contraseña no puede estar vacía o ser nula.");
         }
 
         LOG.infof("@updateUser SERV > Persisting updated user with ID %d", userDTO.getDocumentNumber());
@@ -199,7 +199,7 @@ public class LoginService {
         LOG.infof("@updateUser SERV > User with ID %d updated successfully", userDTO.getDocumentNumber());
     }
 
-    public void changeStatusUser(Long userId) throws PVException {
+    public void changeStatusUser(Long userId) throws SPException {
         LOG.infof("@deleteUser SERV > Start service to delete user with ID %d", userId);
 
         User existingUser = userRepository.findById(userId);
@@ -212,7 +212,7 @@ public class LoginService {
         LOG.infof("@deleteUser SERV > User with ID %d deleted successfully", userId);
     }
 
-    public List<TypeDocument> getTypeDocument() throws PVException {
+    public List<TypeDocument> getTypeDocument() throws SPException {
         LOG.infof("@getTypeDocument SERV > Start service to obtain type documents");
 
         List<TypeDocument> typeDocumentList = typeDocumentRepository.listAll();
@@ -220,14 +220,14 @@ public class LoginService {
 
         if (typeDocumentList.isEmpty()) {
             LOG.warnf("@getTypeDocument SERV > No type documents found");
-            throw new PVException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontraron tipos de documentos.");
+            throw new SPException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontraron tipos de documentos.");
         }
 
         LOG.infof("@getTypeDocument SERV > Finish service to obtain type documents");
         return typeDocumentList;
     }
 
-    public List<TypeUser> getRole() throws PVException {
+    public List<TypeUser> getRole() throws SPException {
         LOG.infof("@getRole SERV > Start service to obtain roles");
 
         List<TypeUser> roleList = roleRepository.listAll();
@@ -235,7 +235,7 @@ public class LoginService {
 
         if (roleList.isEmpty()) {
             LOG.warnf("@getRole SERV > No roles found");
-            throw new PVException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontraron roles registrados.");
+            throw new SPException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontraron roles registrados.");
         }
 
         LOG.infof("@getRole SERV > Finish service to obtain roles");

@@ -6,17 +6,17 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class PVException extends RuntimeException {
+public class SPException extends RuntimeException {
     private final Response.Status status;
 
     private List<String> errors;
 
-    public PVException(int statusCode, String msg) {
+    public SPException(int statusCode, String msg) {
         super(msg);
         this.status = Response.Status.fromStatusCode(statusCode);
     }
 
-    public PVException(int statusCode, String msg, List<String> errors) {
+    public SPException(int statusCode, String msg, List<String> errors) {
         super(msg);
         this.errors = errors;
         this.status = Response.Status.fromStatusCode(statusCode);

@@ -8,7 +8,7 @@ import org.sp.processor.domain.product.Category;
 import org.sp.processor.domain.product.Product;
 import org.sp.processor.domain.product.ProductDTO;
 import org.sp.processor.domain.product.ProductSaveDTO;
-import org.sp.processor.helper.exception.PVException;
+import org.sp.processor.helper.exception.SPException;
 import org.sp.processor.repository.CategoryRepository;
 import org.sp.processor.repository.ProductRepository;
 
@@ -32,7 +32,7 @@ public class ProductService {
 
         if (productsList.isEmpty()) {
             LOG.warnf("@getProducts SERV > No products found");
-            throw new PVException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontraron productos.");
+            throw new SPException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontraron productos.");
         }
 
         LOG.infof("@getProducts SERV > Retrieved %d products", productsList.size());
@@ -49,7 +49,7 @@ public class ProductService {
             LOG.warnf("@saveProduct SERV > Product already exists with name : %s, value : %s, idCategory : %s",
                     productSaveDTO.getName(), productSaveDTO.getValue(), productSaveDTO.getIdCategory());
 
-            throw new PVException(Response.Status.CONFLICT.getStatusCode(), "El producto ya existe.");
+            throw new SPException(Response.Status.CONFLICT.getStatusCode(), "El producto ya existe.");
         }
 
         LOG.infof("@saveProduct SERV > Creating product entity from DTO");
@@ -88,7 +88,7 @@ public class ProductService {
         LOG.infof("@productUpdate SERV > Successfully save product with id %s", productDTO.getIdProduct());
     }
 
-    public void changeStatusProduct(Long idProduct) throws PVException {
+    public void changeStatusProduct(Long idProduct) throws SPException {
         LOG.infof("@changeStatusProduct SERV > Start service to deactivate product with ID %d", idProduct);
 
         LOG.infof("@changeStatusProduct SERV > Search product to deactivate with ID %d", idProduct);
@@ -110,7 +110,7 @@ public class ProductService {
 
         if (product == null) {
             LOG.warn("@validateProduct SERV > No product found, throwing NOT_FOUND exception");
-            throw new PVException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontró el producto con el número de id ingresado.");
+            throw new SPException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontró el producto con el número de id ingresado.");
         }
     }
 
@@ -121,7 +121,7 @@ public class ProductService {
 
         if (categoryList.isEmpty()) {
             LOG.warnf("@getCategory SERV > No categories found");
-            throw new PVException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontraron categorías");
+            throw new SPException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontraron categorías");
         }
         LOG.infof("@getCategory SERV > Retrieved %d categories", categoryList.size());
 
