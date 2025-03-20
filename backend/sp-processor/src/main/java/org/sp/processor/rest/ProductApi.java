@@ -14,6 +14,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.media.SchemaProperty;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.sp.processor.domain.product.CategoryDTO;
 import org.sp.processor.domain.product.CategorySaveDTO;
 import org.sp.processor.domain.product.ProductDTO;
 import org.sp.processor.domain.product.ProductSaveDTO;
@@ -386,5 +387,54 @@ public class ProductApi {
     public Response saveCategory(@Valid CategorySaveDTO categorySaveDTO){
         productService.saveCategory(categorySaveDTO);
         return Response.status(Response.Status.CREATED).build();
+    }
+
+    @PUT
+    @Transactional
+    @Path("/categoryUpdate")
+    @APIResponses(
+            value = {
+                    @APIResponse(
+                            responseCode = "200",
+                            description = "Se actualiza la categoría correctamente"
+                    ),
+                    @APIResponse(
+                            responseCode = "400",
+                            description = "No hay registros de categorías en base de datos.",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(
+                                            implementation = ProblemException.class,
+                                            properties = {
+                                                    @SchemaProperty(
+                                                            name = "detail",
+                                                            example = """
+                                                                        [
+                                                                               "El campo id no puede ser nulo o estar vacío.",
+                                                                               "El campo name (nombre) no puede ser nulo o estar vacío."
+                                                                        ]
+                                                                    """
+                                                    )
+                                            }
+                                    )
+                            )
+                    ),
+                    @APIResponse(
+                            responseCode = "500",
+                            description = "Error interno de servidor",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = HandlerException.ResponseError.class)
+                            )
+                    )
+            }
+    )
+    @Operation(
+            summary = "Actualizar la categoría",
+            description = "Se actualiza la categoría de forma exitosa"
+    )
+    public Response categoryUpdate(@Valid CategoryDTO categoryDTO){
+        productService.updateCategory(categoryDTO);
+        return Response.status(Response.Status.OK).build();
     }
 }

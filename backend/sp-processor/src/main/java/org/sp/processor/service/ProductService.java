@@ -124,12 +124,13 @@ public class ProductService {
 
         return categoryList;
     }
-    public void saveCategory(CategorySaveDTO categorySaveDTO){
+
+    public void saveCategory(CategorySaveDTO categorySaveDTO) {
 
         LOG.infof("@saveCategory SERV > Start service to save a new category");
-        if(categoryRepository.searchCategoryByName(categorySaveDTO.getName()) !=null){
+        if (categoryRepository.searchCategoryByName(categorySaveDTO.getName()) != null) {
 
-            LOG.warnf("@saveCategory SERV > The category name already exists : %s",categorySaveDTO.getName());
+            LOG.warnf("@saveCategory SERV > The category name already exists : %s", categorySaveDTO.getName());
             throw new SPException(Response.Status.CONFLICT.getStatusCode(), "La categoría ya existe.");
 
         }
@@ -143,4 +144,31 @@ public class ProductService {
         categoryRepository.persist(category);
     }
 
+    private void validateCategory(Category category) {
+        LOG.info("@validateProduct SERV > Validating if category exists");
+
+        if (category == null) {
+            LOG.warn("@validateCategory SERV > No category found, throwing NOT_FOUND exception");
+            throw new SPException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontró la categoría con el número de id ingresado.");
+        }
+    }
+
+    public void updateCategory(CategoryDTO categoryDTO) {
+
+        LOG.infof("@updateCategory SERV > Start service for product update with id %s", categoryDTO.getIdCategory());
+
+        LOG.infof("@updateCategory SERV > Search category with id %s", categoryDTO.getIdCategory());
+        Category category = categoryRepository.findById((long) categoryDTO.getIdCategory());
+
+        LOG.infof("@pdateCategory SERV > Validate category with id %s", categoryDTO.getIdCategory());
+        validateCategory(category);
+
+        LOG.infof("@updateCategory SERV > Update data category with id %s", categoryDTO.getIdCategory());
+        category.setName(categoryDTO.getName());
+
+        LOG.infof("@updateCategory SERV > Save data category with id %s", categoryDTO.getIdCategory());
+
+        categoryRepository.persist(category);
+        LOG.infof("@updateCategory SERV > Successfully save category with id %s", categoryDTO.getIdCategory());
+    }
 }

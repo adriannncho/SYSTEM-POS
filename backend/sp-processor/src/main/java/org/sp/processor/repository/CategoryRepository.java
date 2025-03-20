@@ -7,7 +7,7 @@ import org.sp.processor.domain.product.Category;
 @ApplicationScoped
 public class CategoryRepository implements PanacheRepository<Category> {
 
-    public Category searchCategoryByName(String name){
+    public Category searchCategoryByName(String name) {
         return find("name= ?1", name).firstResult();
     }
 }
