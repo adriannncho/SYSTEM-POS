@@ -7,15 +7,18 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background: var(--color-light-black);
 }
 
 .backgroundForm{
   background-color: var(--color-neutral-white);
   position: fixed;
   padding:1.6rem;
-  width: 45%;
+  width: 50vh;
+  height: 50vh;
   transition: width 1.5s;
   box-shadow: 0 0 10px var(--color-primary-gray);
+  border-radius: 50px;
 }
 
 .centrar{

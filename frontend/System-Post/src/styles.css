@@ -24,6 +24,7 @@
   --color-secondary-green-dark: #155724;
   --color-secondary-green-light: #D7F0D9;
   --color-neutral-black: #000000;
+  --color-light-black: #111315;
 
 
   /*Variantes de colores para notificaciones*/
@@ -70,4 +71,22 @@
 /* ESTILOS MENU DRAWER */
 .ant-drawer-body {
   padding: 0;
+}
+
+/* ESTILOS BOTONES */
+
+.ant-btn-primary {
+  background: var(--color-primary-green);
+  border-color: var(--color-primary-green);
+}
+
+.ant-btn-primary:hover {
+  background: var(--color-primary-green);
+  border-color: var(--color-primary-green);
+}
+
+/* Inputs */
+
+.ant-input-affix-wrapper{
+
 }
