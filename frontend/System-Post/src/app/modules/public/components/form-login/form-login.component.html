@@ -7,17 +7,12 @@
             <div nz-row class="centerContent">
             <div nz-col class="centerContent" style="color: aliceblue">
                 <div nz-row>
-                <div nz-col nzSpan="24" class="centerContent">
-                    <img
-                    src="../../../../../../assets/img/logoQfresa.png"
-                    style="width: 50%; cursor: pointer"
-                    routerLink="/"
-                    alt="logo LaQFresa"
-                    />
-                </div>
-                <div nz-col nzSpan="24" class="centerContent">
-                    <h3 class="loginTitle" nz-title>Iniciar sesión</h3>
-                </div>
+                  <div nz-col nzSpan="24" class="centerContent">
+                      <h1 class="loginTitle" nz-title>COSYPOS</h1>
+                  </div>
+                  <div nz-col nzSpan="24" class="centerContent">
+                    <h1 class="loginTitle" nz-title>Iniciar sesión</h1>
+                  </div>
                 </div>
             </div>
             </div>
@@ -41,17 +36,13 @@
           [formGroup]="validateForm"
           class="login-form"
           (ngSubmit)="isValidForm()"
+          method="post"
         >
           <div nz-row class="centerContent">
             <div nz-col class="centerContent" style="color: aliceblue">
               <div nz-row>
                 <div nz-col nzSpan="24" class="centerContent">
-                  <img
-                    src="../../../../../../assets/img/logoQfresa.png"
-                    style="width: 50%; cursor: pointer"
-                    routerLink="/"
-                    alt="logo LaQFresa"
-                  />
+                  <h1 class="loginTitle" nz-title>COSYPOS</h1>
                 </div>
                 <div nz-col nzSpan="24" class="centerContent">
                   <h3 class="loginTitle" nz-title>Iniciar sesión</h3>
@@ -60,13 +51,16 @@
             </div>
           </div>
           <nz-form-item>
+            <nz-form-label nzSpan="24" nzNoColon="true">
+              Número de documento:
+            </nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorUser">
               <nz-input-group nzPrefixIcon="user">
                 <input
                   type="text"
                   nz-input
                   formControlName="numDocument"
-                  placeholder="Numero de documento"
+                  placeholder="Número de documento"
                   autocomplete="current-numDocument"
                   (focus)="numDocumentTouched = true"
                   (blur)="markTouched('numDocument')"
@@ -75,6 +69,9 @@
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
+            <nz-form-label nzSpan="24" nzNoColon="true">
+              Contraseña:
+            </nz-form-label>
             <nz-form-control nzHasFeedback [nzErrorTip]="errorPassword">
               <nz-input-group nzPrefixIcon="lock" [nzSuffix]="suffixPassword">
                 <input

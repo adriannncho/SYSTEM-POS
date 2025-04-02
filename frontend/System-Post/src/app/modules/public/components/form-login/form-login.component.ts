@@ -86,7 +86,7 @@ export class FormLoginComponent {
       (error) => {
         let message = 'Ocurrió un error al iniciar sesión, por favor intente nuevamente';
         if (error?.error?.detail && error.status >= 400 && error.status < 499) {
-          message = error.error.detail;
+          message = "Las credenciales proporcionadas son incorrectas.";
         }
         this.loadingLogin = false;
         this.notificationService.error(message, 'Error');

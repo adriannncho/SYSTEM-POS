@@ -11,14 +11,25 @@
 }
 
 .backgroundForm{
-  background-color: var(--color-neutral-white);
+  background-color: var(--color-neutral-gray-cold);
   position: fixed;
   padding:1.6rem;
-  width: 50vh;
-  height: 50vh;
+  width: 60vh;
+  height: 60vh;
   transition: width 1.5s;
   box-shadow: 0 0 10px var(--color-primary-gray);
   border-radius: 50px;
+}
+
+nz-input-group {
+  height: 45px;
+  border-radius: 12px;
+  background: var(--color-neutral-gray) !important;
+  border: none !important;
+}
+
+nz-input-group > input {
+  background: var(--color-neutral-gray) !important;
 }
 
 .centrar{
@@ -26,6 +37,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .centarForm{
   width: 100%; 
   height: 100%;
@@ -33,23 +45,29 @@
   justify-content: center;
   align-items: center;
 }
+
 .imgLogoVe{
   height: 50%;
   margin-bottom: -70px;
 }
+
 .inputFocused{
   border-radius: 3px; 
   border-color: var(--color-primary-blue); 
   box-shadow: none;
 }
+
 .inputUnfocused{
   border-radius: 3px;
+}
+
+.formStyle {
+  width: 100%;
 }
 
 .btn-ingresar{
   transition-duration: 0.3s;
   font-size: large;
-  border-radius: 3px;
   height: 50px;
   width: 100%;
   margin-bottom: 10px;
@@ -58,7 +76,6 @@
 
 .btn-ingresar:hover{
   scale: 1.05;
-  box-shadow: 0 0 10px var(--color-primary-gray);
   color: white;
 }
 
@@ -71,7 +88,7 @@
 }
 
 .loginTitle{
-  color: black;
+  color: var(--color-neutral-white);
   margin-bottom: 4%;
   font-size: 1.6rem;
   font-weight: normal;
@@ -162,4 +179,8 @@
 
 i{
   cursor: pointer;
+}
+
+:host ::ng-deep .ant-form-item-label > label {
+  color: var(--color-neutral-white);
 }
