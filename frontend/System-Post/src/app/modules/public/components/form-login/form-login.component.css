@@ -25,11 +25,13 @@ nz-input-group {
   height: 45px;
   border-radius: 12px;
   background: var(--color-neutral-gray) !important;
+  color: var(--color-neutral-white);
   border: none !important;
 }
 
 nz-input-group > input {
   background: var(--color-neutral-gray) !important;
+  color: var(--color-neutral-white);
 }
 
 .centrar{
