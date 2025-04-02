@@ -1,5 +1,5 @@
 nz-header {
-  background: #fff;
+  background: var(--color-light-black);
   padding: 0;
 }
 
@@ -9,8 +9,8 @@ nz-content {
 
 .footer-desktop {
   text-align: center;
-  background: var(--color-notification-info-light);
-  color: var(--color-notification-info-dark);
+  background: var(--color-light-black);
+  color: var(--color-neutral-white);
 }
 
 .trigger {
@@ -22,7 +22,7 @@ nz-content {
 }
 
 .trigger:hover {
-  color: #1890ff;
+  color: var(--color-primary-green-title);
 }
 
 nz-breadcrumb {
@@ -37,4 +37,9 @@ nz-breadcrumb {
 
 nz-footer {
   text-align: center;
+}
+
+nz-sider{
+  background: var(--color-neutral-gray);
+  border-radius: 0px 30px 30px 0px;
 }

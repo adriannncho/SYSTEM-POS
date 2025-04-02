@@ -4,6 +4,7 @@
   --color-primary-green: #89AF83;
   --color-primary-green-light: #C2E9DD;
   --color-primary-green-dark: #50CD89;
+  --color-primary-green-title: #AEC5AA;
   --color-primary-blue-ash: #19477c;
   --color-primary-red: #F60000;
   --color-primary-red-shaded: #AC0111;
@@ -53,7 +54,11 @@
   /*Cajas de texto*/
   --border-box-radius: 3px;
   --border-box-style: double;
+
 }
+
+/*Fuente de letra en general*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 /* CLASES GENERALES */
 .centerContent {
@@ -89,4 +94,13 @@
 
 .ant-input-affix-wrapper{
 
+}
+
+/* ESTILOS DE CONTENIDO GENERAL */ 
+.ant-layout {
+  background: var(--color-light-black);
+}
+
+.ant-menu-sub.ant-menu-inline {
+  background: var(--color-neutral-gray);
 }
