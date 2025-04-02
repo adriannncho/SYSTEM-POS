@@ -1,0 +1,11 @@
+@if (show && overlay) {
+  <div class="overlay">
+    <div class="spinner"></div>
+    <p>{{ message }}</p>
+  </div>
+} @else if (show && !overlay) {
+  <div class="inline-spinner">
+    <div class="spinner"></div>
+  </div>
+}
+

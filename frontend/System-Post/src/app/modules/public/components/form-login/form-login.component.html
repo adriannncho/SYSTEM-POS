@@ -5,16 +5,10 @@
         <div nz-row class="formStyle centerContent">
         <div nz-col nzSpan="24" class="centrar">
             <div nz-row class="centerContent">
-            <div nz-col class="centerContent" style="color: aliceblue">
-                <div nz-row>
-                  <div nz-col nzSpan="24" class="centerContent">
-                      <h1 class="loginTitle" nz-title>COSYPOS</h1>
-                  </div>
-                  <div nz-col nzSpan="24" class="centerContent">
-                    <h1 class="loginTitle" nz-title>Iniciar sesión</h1>
-                  </div>
-                </div>
-            </div>
+              <app-loading
+                [show]="loadingLogin"
+                [message]="'Iniciando sesión'">
+              </app-loading>
             </div>
         </div>
         <div

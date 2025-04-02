@@ -6,12 +6,14 @@ import { FormPatterns } from '../../../../core/utils/interfaces/generals.interfa
 import { NG_ZORRO_MODULES } from '../../../../shared/config/ng-zorro.config';
 import { JwtDecodeUser } from '../../../../core/models/authentication/auth.interface';
 import { NotificationService } from '../../../../core/services/notification/notification.service';
+import { LoadingComponent } from '../../../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-form-login',
   standalone: true,
   imports: [
-    ...NG_ZORRO_MODULES
+    ...NG_ZORRO_MODULES,
+    LoadingComponent
   ],
   templateUrl: './form-login.component.html',
   styleUrl: './form-login.component.css',
