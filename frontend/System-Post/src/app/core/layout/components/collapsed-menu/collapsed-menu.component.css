@@ -1,6 +1,6 @@
 .logo {
   height: 32px;
-  background: var(--color-neutral-gray);
+  background: var(--color-neutral-gray-cold);
   color: var(--color-primary-green-title);
   margin: 16px;
   text-align: center;
@@ -9,14 +9,65 @@
   font-weight: 600;
   font-style: normal;
   font-size: 22px;
-  margin-top: 30px;
+  margin: 40px;
 }
 
 ul{
-  background: var(--color-neutral-gray);
+  background: var(--color-neutral-gray-cold);
   color: var(--color-neutral-white);
+} 
+
+.ant-menu-light .ant-menu-item-active, .ant-menu-light .ant-menu-item:hover,
+.ant-menu-light .ant-menu-submenu-active, .ant-menu-light .ant-menu-submenu-title:hover,
+.ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open {
+  color: var(--color-neutral-black);
 }
 
-li:hover{
-  color: var(--color-primary-green-title);
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background: var(--color-primary-green-title);
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 7px;
+}
+
+.ant-menu-item-selected{
+  color: var(--color-neutral-black);
+}
+
+.ant-menu-inline .ant-menu-item::after{
+  border-right: none;
+}
+
+.ant-menu-inline {
+  border-right: none;
+}
+
+.ant-menu-inline.ant-menu-root .ant-menu-item{
+  height: max-content;
+  width: 130px;
+  margin: 0 auto;
+}
+
+.container-block-menu{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0 6px 0;
+}
+
+.ant-divider-horizontal {
+  background: var(--color-neutral-gray);
+  width: 45%;
+  min-width: 45%;
+  margin: 0 0 24px 0;
+}
+
+.container-menu-divider{
+  justify-items: center;
+  align-items: center;
+}
+
+.container-block{
+  padding-left: 7px!important; 
 }
