@@ -1,0 +1,20 @@
+.btn-regresar {
+  background: transparent;
+  border: none;
+  color: var(--color-neutral-white);
+}
+
+.icon-regresar {
+  color: var(--color-neutral-white);
+}
+
+.containerCategories {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  align-items: center;
+}
+
+.titleCategories h2 {
+  color: var(--color-neutral-white);
+}
