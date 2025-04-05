@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { BaseComponent } from './core/layout/components/base/base.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { AuthPublicGuard } from './core/guards/auth-public.guard';
+import { StaffComponent } from './modules/private/pages/staff/staff.component';
 
 export const routes: Routes = [
 
@@ -16,7 +17,14 @@ export const routes: Routes = [
     path: '',
     component: BaseComponent,
     data: { preload: false },
-    canActivate : [AuthGuard]
+    canActivate : [AuthGuard],
+    children: [
+      {
+        path: 'intranet/staff',
+        component: StaffComponent,
+        data: {preload: true}
+      }
+    ]
   }
 
 ];

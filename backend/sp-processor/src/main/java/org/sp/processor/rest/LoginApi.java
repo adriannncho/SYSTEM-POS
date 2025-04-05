@@ -393,4 +393,46 @@ public class LoginApi {
     public Response getRole() {
         return Response.ok().entity(loginService.getRole()).build();
     }
+
+    @GET
+    @Path("/user")
+    @APIResponses(
+            value = {
+                    @APIResponse(
+                            responseCode = "200",
+                            description = "Se obtiene el listado de usuarios correctamente"
+                    ),
+                    @APIResponse(
+                            responseCode = "404",
+                            description = "No hay registros de usuarios en base de datos.",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(
+                                            implementation = ProblemException.class,
+                                            properties = {
+                                                    @SchemaProperty(
+                                                            name = "detail",
+                                                            example = "No se encontraron registros de usuarios."
+                                                    )
+                                            }
+                                    )
+                            )
+                    ),
+                    @APIResponse(
+                            responseCode = "500",
+                            description = "Error interno de servidor",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON,
+                                    schema = @Schema(implementation = HandlerException.ResponseError.class)
+                            )
+                    )
+            }
+    )
+    @Operation(
+            summary = "Obtener listado de usuarios",
+            description = "Se obtiene el listado con la información de los usuarios registrados"
+    )
+    public Response getUser() {
+        return Response.ok().entity(loginService.getUser()).build();
+    }
 }

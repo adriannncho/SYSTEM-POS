@@ -241,4 +241,20 @@ public class LoginService {
         LOG.infof("@getRole SERV > Finish service to obtain roles");
         return roleList;
     }
+
+    public List<User> getUser() {
+        LOG.infof("@getUser SERV > Start service to get users");
+
+        List<User> userList = userRepository.listAll();
+        LOG.infof("@getUser SERV > Retrieved %d users from repository", userList.size());
+
+        if (userList.isEmpty()) {
+            LOG.infof("@getUser SERV > No users found, throwing NOT_FOUND exception");
+            throw new SPException(Response.Status.NOT_FOUND.getStatusCode(), "No se encontraron registros de usuarios.");
+        }
+
+        LOG.infof("@getUser SERV > Returning list of users");
+        return userList;
+    }
+
 }
