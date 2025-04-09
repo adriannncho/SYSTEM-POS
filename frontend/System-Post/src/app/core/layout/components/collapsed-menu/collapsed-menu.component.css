@@ -9,7 +9,7 @@
   font-weight: 600;
   font-style: normal;
   font-size: 22px;
-  margin: 40px;
+  margin: 30px;
 }
 
 ul{
@@ -43,8 +43,8 @@ ul{
 }
 
 .ant-menu-inline.ant-menu-root .ant-menu-item{
-  height: max-content;
-  width: 130px;
+  height: 90px;
+  width: 115px;
   margin: 0 auto;
 }
 
@@ -69,5 +69,21 @@ ul{
 }
 
 .container-block{
-  padding-left: 7px!important; 
+  padding-left: 13px!important; 
+}
+
+.ant-menu-item .anticon{
+  font-size: 22px;
+  color: var(--color-primary-green-title);
+  background-color: white;
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.ant-menu-item .anticon + span{
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 16px;
+  margin: 0 auto;
 }

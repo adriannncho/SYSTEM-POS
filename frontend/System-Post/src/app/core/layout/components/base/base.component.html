@@ -18,12 +18,22 @@
   }
   <nz-layout>
     <nz-header>
-      <span
-        class="trigger"
-        nz-icon
-        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="showMenu()"
-      ></span>
+      <div class="container-header">
+        @if (width < 768) {
+          <div class="container-trigger">
+            <span
+              class="trigger"
+              nz-icon
+              [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+              (click)="showMenu()"
+            ></span>
+          </div>
+        }
+        <div class="icons-header">
+          <span>Cerrar Sesión</span>
+          <span nz-icon nzType="logout" nzTheme="outline" style="padding: 8px;"></span>
+        </div>
+      </div>
     </nz-header>
     <nz-content>
       <div>
