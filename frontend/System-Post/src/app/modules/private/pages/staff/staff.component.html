@@ -7,3 +7,64 @@
     </div>
 </div>
 
+<div nz-row>
+    <div nz-col nzSpan="24">
+        <div nz-row>
+            <div nz-col nzSpan="24" class="container-header">
+                <div class="title-user">
+                    <h2>
+                        Usuarios (22)
+                    </h2>
+                </div>
+                <div>
+                    <button nz-button nzType="primary">
+                        Agregar usuario
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-user">
+    <nz-table
+    #rowSelectionTable
+    nzShowSizeChanger
+    [nzData]="userResponse"
+    (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+  >
+    <thead>
+      <tr>
+        <th
+          [(nzChecked)]="checked"
+          [nzIndeterminate]="indeterminate"
+          (nzCheckedChange)="onAllChecked($event)"
+        ></th>
+        <th>Número de Documento</th>
+        <th>Tipo de Documento</th>
+        <th>Tipo de Usuario</th>
+        <th>Negocio</th>
+        <th>Estado</th>
+        <th>Nombre</th>
+        <th>Teléfono</th>
+        <th>Correo Electrónico</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (data of rowSelectionTable.data; track data) {
+        <tr>
+          <td [nzChecked]="setOfCheckedId.has(data.documentNumber)" (nzCheckedChange)="onItemChecked(data.documentNumber, $event)"></td>
+          <td>{{ data.documentNumber }}</td>
+          <td>{{ data.documentTypeId.name }}</td>
+          <td>{{ data.userType.name }}</td>
+          <td>{{ data.businessId.name }}</td>
+          <td>{{ data.userStatus ? 'Activo' : 'Inactivo' }}</td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.phone }}</td>
+          <td>{{ data.email }}</td>
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+</div>

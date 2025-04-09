@@ -1,0 +1,47 @@
+.btn-regresar {
+    background: none;
+    color: var(--color-neutral-white);
+    border: none;
+    font-size: 28px;
+    margin-left: 30px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.icon-regresar {
+  color: var(--color-neutral-white);
+}
+
+.container-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 50px 0 50px;
+}
+
+.title-user{
+    margin-top: 12px;
+}
+
+.title-user h2 {
+  color: var(--color-neutral-white);
+  font-size: 25px;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.ant-btn-primary {
+  height: 58px;
+  font-size: 16px;
+  color: var(--color-neutral-black);
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.table-user{
+  margin-top: 50px;
+}

@@ -18,6 +18,11 @@ export class StaffComponent implements OnInit{
   loadingUser: boolean = false;
   userResponse: User[] = [];
 
+  listOfCurrentPageData: readonly User[] = [];
+  checked = false;
+  indeterminate = false;
+  setOfCheckedId = new Set<number>();
+
   constructor(
     private staffService: StaffService,
     private notificationService: NotificationService
@@ -47,4 +52,31 @@ export class StaffComponent implements OnInit{
     }));
   }
 
+  updateCheckedSet(id: number, checked: boolean): void {
+    if (checked) {
+      this.setOfCheckedId.add(id);
+    } else {
+      this.setOfCheckedId.delete(id);
+    }
+  }
+
+  onItemChecked(id: number, checked: boolean): void {
+    this.updateCheckedSet(id, checked);
+    this.refreshCheckedStatus();
+  }
+
+  onAllChecked(value: boolean): void {
+    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.documentNumber, value));
+    this.refreshCheckedStatus();
+  }
+
+  onCurrentPageDataChange($event: readonly User[]): void {
+    this.listOfCurrentPageData = $event;
+    this.refreshCheckedStatus();
+  }
+
+  refreshCheckedStatus(): void {
+    this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.documentNumber));
+    this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.documentNumber)) && !this.checked;
+  }
 }
