@@ -67,6 +67,12 @@
   text-align: center;
 }
 
+.textEllipsis{
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ESTILOS FOOTHER */
 .ant-layout-footer {
   padding: 14px 14px;
@@ -91,10 +97,6 @@
 }
 
 /* Inputs */
-
-.ant-input-affix-wrapper{
-
-}
 
 /* ESTILOS DE CONTENIDO GENERAL */ 
 .ant-layout {
