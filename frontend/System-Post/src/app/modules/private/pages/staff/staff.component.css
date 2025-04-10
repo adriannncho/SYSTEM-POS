@@ -43,5 +43,33 @@
 }
 
 .table-user{
-  margin-top: 50px;
+  margin-top: 30px;
+}
+
+.nz-table-hide-scrollbar {
+  scrollbar-color: transparent transparent;
+}
+
+.actions{
+  display: flex;
+  flex: 0;
+  max-width: 100%;
+}
+
+.modal-view {
+  background: var(--color-primary-green-title);
+  border: none;
+  border-radius: 50%;
+}
+
+.modal-edit {
+  background:none;
+  border: none;
+  color: var(--color-neutral-white);
+}
+
+.modal-active {
+  background: none;
+  border: none;
+  color: var(--color-primary-red-shaded);
 }

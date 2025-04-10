@@ -13,7 +13,7 @@
             <div nz-col nzSpan="24" class="container-header">
                 <div class="title-user">
                     <h2>
-                        Usuarios (22)
+                        Usuarios ({{userResponse.length}})
                     </h2>
                 </div>
                 <div>
@@ -28,22 +28,13 @@
 
 <div class="table-user">
     <nz-table
-    #rowSelectionTable
-    nzShowSizeChanger
-    [nzData]="userResponse"
-    (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+    #headerTable [nzData]="userResponse" [nzPageSize]="50" [nzScroll]="{ y: '500px' }"
   >
     <thead>
       <tr>
-        <th
-          [(nzChecked)]="checked"
-          [nzIndeterminate]="indeterminate"
-          (nzCheckedChange)="onAllChecked($event)"
-        ></th>
         <th>Número de Documento</th>
         <th>Tipo de Documento</th>
         <th>Tipo de Usuario</th>
-        <th>Negocio</th>
         <th>Estado</th>
         <th>Nombre</th>
         <th>Teléfono</th>
@@ -52,17 +43,45 @@
       </tr>
     </thead>
     <tbody>
-      @for (data of rowSelectionTable.data; track data) {
+      @for (data of userResponse; track data) {
         <tr>
-          <td [nzChecked]="setOfCheckedId.has(data.documentNumber)" (nzCheckedChange)="onItemChecked(data.documentNumber, $event)"></td>
           <td>{{ data.documentNumber }}</td>
           <td>{{ data.documentTypeId.name }}</td>
           <td>{{ data.userType.name }}</td>
-          <td>{{ data.businessId.name }}</td>
           <td>{{ data.userStatus ? 'Activo' : 'Inactivo' }}</td>
           <td>{{ data.name }}</td>
           <td>{{ data.phone }}</td>
           <td>{{ data.email }}</td>
+          <td>
+            <div class="actions">
+                <div nz-col nzSpan="6">
+                  <button
+                  nz-button
+                  class="modal-view"
+                  >
+                    <span nz-icon nzType="eye" nzTheme="outline" nzTwotoneColor="#19477c"></span>
+                  </button>
+                </div>
+                <div nz-col nzSpan="6">
+                  <button
+                  nz-button
+                  class="modal-edit"
+                  >
+                    <span nz-icon nzType="edit" nzTheme="outline" nzTwotoneColor="#19477c"></span>
+                  </button>
+                </div>
+                <div nz-col>
+                  <button
+                  nz-button
+                  class="modal-active"
+                  nz-popconfirm
+                  nzPopconfirmTitle="¿Estas seguro de cambiar el estado del usuario"
+                  nzPopconfirmPlacement="top">
+                    <span nz-icon nzType="delete" nzTheme="outline"></span>
+                  </button>
+                </div>
+              </div>
+          </td>
         </tr>
       }
     </tbody>

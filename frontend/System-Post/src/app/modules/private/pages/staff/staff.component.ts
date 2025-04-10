@@ -31,7 +31,7 @@ export class StaffComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.getUsers;
+    this.getUsers();
   }
 
   /**
@@ -50,33 +50,5 @@ export class StaffComponent implements OnInit{
       this.loadingUser = false;
       this.notificationService.error("Ocurrio un erro al cargar los usuarios disponibles", "Cargar usuarios")
     }));
-  }
-
-  updateCheckedSet(id: number, checked: boolean): void {
-    if (checked) {
-      this.setOfCheckedId.add(id);
-    } else {
-      this.setOfCheckedId.delete(id);
-    }
-  }
-
-  onItemChecked(id: number, checked: boolean): void {
-    this.updateCheckedSet(id, checked);
-    this.refreshCheckedStatus();
-  }
-
-  onAllChecked(value: boolean): void {
-    this.listOfCurrentPageData.forEach(item => this.updateCheckedSet(item.documentNumber, value));
-    this.refreshCheckedStatus();
-  }
-
-  onCurrentPageDataChange($event: readonly User[]): void {
-    this.listOfCurrentPageData = $event;
-    this.refreshCheckedStatus();
-  }
-
-  refreshCheckedStatus(): void {
-    this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(item.documentNumber));
-    this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(item.documentNumber)) && !this.checked;
   }
 }

@@ -80,7 +80,7 @@
 /* ESTILOS BOTONES */
 
 .ant-btn-primary {
-  background: var(--color-primary-green);
+  background: var(--color-primary-green-title);
   border-color: var(--color-primary-green);
   border-radius: 12px;
 }
@@ -113,4 +113,65 @@
 .ant-drawer-header {
   border-bottom: 0; 
   padding: 5px;
+}
+
+
+/*ESTILOS DE TABLAS*/
+
+.ant-table {
+  background: none;
+}
+
+.ant-table-thead > tr > th {
+  background: var(--color-light-black);
+  color: var(--color-neutral-white);
+  border-bottom: none;
+  height: 25px;
+  font-size: 14px;
+}
+
+.ant-table-tbody > tr > td {
+  background: var(--color-neutral-gray-cold);
+  border-bottom: .5px solid var(--color-primary-gray);
+  color: var(--color-neutral-white);
+  height: 35px;
+  font-size: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: #bfbfbf transparent;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent; 
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #aaa; 
+    border-radius: 20px;
+    border: 2px solid transparent; 
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
+  }
+} 
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--color-primary-green);
+  border-color: var(--color-primary-green-dark);
+}
+
+.ant-table-tbody > tr.ant-table-row:hover > td {
+  background: var(--color-neutral-gray-cold);
+}
+
+.ant-pagination-item-active a, .ant-pagination-item:focus-visible a, .ant-pagination-item:hover a {
+  border-color: var(--color-primary-green);
+  color: var(--color-primary-green);
+}
+
+.ant-pagination-item-active:focus-visible, .ant-pagination-item-active:hover, .ant-pagination-next:hover button, .ant-pagination-prev:hover button {
+  border-color: var(--color-primary-green);
 }
