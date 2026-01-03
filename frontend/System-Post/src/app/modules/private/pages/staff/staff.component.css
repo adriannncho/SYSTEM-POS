@@ -1,0 +1,75 @@
+.btn-regresar {
+    background: none;
+    color: var(--color-neutral-white);
+    border: none;
+    font-size: 28px;
+    margin-left: 30px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.icon-regresar {
+  color: var(--color-neutral-white);
+}
+
+.container-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 50px 0 50px;
+}
+
+.title-user{
+    margin-top: 12px;
+}
+
+.title-user h2 {
+  color: var(--color-neutral-white);
+  font-size: 25px;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.ant-btn-primary {
+  height: 58px;
+  font-size: 16px;
+  color: var(--color-neutral-black);
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.table-user{
+  margin-top: 30px;
+}
+
+.nz-table-hide-scrollbar {
+  scrollbar-color: transparent transparent;
+}
+
+.actions{
+  display: flex;
+  flex: 0;
+  max-width: 100%;
+}
+
+.modal-view {
+  background: var(--color-primary-green-title);
+  border: none;
+  border-radius: 50%;
+}
+
+.modal-edit {
+  background:none;
+  border: none;
+  color: var(--color-neutral-white);
+}
+
+.modal-active {
+  background: none;
+  border: none;
+  color: var(--color-primary-red-shaded);
+}
