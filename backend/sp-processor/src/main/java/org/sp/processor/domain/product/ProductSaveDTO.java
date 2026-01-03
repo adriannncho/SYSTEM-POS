@@ -21,7 +21,4 @@ public class ProductSaveDTO {
 
     @NotNull(message = "El campo idCategory (categoria) no puede ser nulo o estar vacío.")
     private int idCategory;
-
-
-
 }
